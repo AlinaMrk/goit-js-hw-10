@@ -1,9 +1,10 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce'; 
 import Notiflix from 'notiflix'; 
-import { fetchCountries } from "./fetchCountries.js"; 
+import { fetchCountries } from "./fetchCountries.js";
 
 const DEBOUNCE_DELAY = 300; 
+
 const inputEl = document.querySelector('input#search-box'); 
 const divCardEl = document.querySelector('.country-info');
 const ulCardsEl = document.querySelector('.country-list');
@@ -13,6 +14,7 @@ inputEl.addEventListener('input', debounce(onInputChange, DEBOUNCE_DELAY));
 function onInputChange(evt) {
     console.log(evt.target.value.trim());
     const name = evt.target.value.trim(); 
+    cleanPage();
     if (!name) {
         return;
     };
@@ -33,7 +35,6 @@ function onInputChange(evt) {
             Notiflix.Notify.failure('Oops, there is no country with that name');
         });
 };
-
 function createListMarkup(data) {
     return data.map(({ flags, name }) => {
         return `
@@ -48,11 +49,10 @@ function createListMarkup(data) {
                 `;
     }).join('');
 };
-
 function createCardMarkup(data) {
-    const { capital, flags, languages, name, population } = data[0]; 
-    const capitalCities = capital.join(", ");
-    const languagesList = Object.values(languages).join(", ");
+    const { capital, flags, languages, name, population } = data[0];
+    const capitalCities = capital.join(", "); 
+    const languagesList = Object.values(languages).join(", "); 
     return `
                 <div class="list_item">
                     <img class="flag"
@@ -71,5 +71,3 @@ function cleanPage() {
     divCardEl.innerHTML = '';
     ulCardsEl.innerHTML = '';
 };
-
-
